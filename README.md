@@ -1,94 +1,92 @@
-# Workflows
+# THIS PERSONAL PFOJECT - ( TRUNK CUTER )
 
-The repo for all _public_ Workflows that appear within Warp and within [commands.dev](https://www.commands.dev/).
+<p align="center">
+    <a href="https://app.warp.dev/get_warp">
+    <img width="500" alt="horz - dark" src="https://storage.googleapis.com/warpdotdev-content/warp-github-dark.png">
+    </a>
+</p>
 
-**To learn how to create local or repository workflows, see [our docs](https://docs.warp.dev/features/workflows#creating-custom-workflows).**
+<p align="center">
+  <a href="https://warp.dev">Website</a>
+  ·
+  <a href="https://warp.dev/warp-drive">Warp Drive</a>
+  ·
+  <a href="https://warp.dev/warp-ai">Warp AI</a>
+  ·
+  <a href="#installation">Installation</a>
+  ·
+  <a href="https://warp.dev/blog">Blog</a>
+</p>
 
-<img width="736" alt="image" src="https://user-images.githubusercontent.com/4110292/164031239-49f0ec9e-f124-44c4-89e6-6facc9bf9a8f.png">
+<a href="https://www.youtube.com/watch?v=34INSNevPOk">
+    <img width="1025" alt="Warp Terminal product preview" src="https://storage.googleapis.com/warpdotdev-content/warp-product-24_01.png">
+</a>
 
+<h1></h1>
 
-## What are Workflows?
+## About
 
-Workflows are an easier way to execute and share commands within Warp. They are searchable by name, description, or command and are easily parameterized. See our documentation for more details: [https://docs.warp.dev/features/workflows](https://docs.warp.dev/features/workflows)
+This is an issues-only repo for [Warp](https://www.warp.dev), a [blazingly-fast modern Rust based GPU-accelerated terminal](https://www.warp.dev/blog/how-warp-works) built to make [you and your team more productive.](https://www.warp.dev/blog/how-we-design-warp-our-product-philosophy)
 
-## How Do I Access Workflows within Warp?
+## Supported Platforms
 
-Workflows can be accessed directly within Warp, either through the Command Palette or by pressing `ctrl-shift-r`.
+As of Feb 2024, Warp is available to macOS and Linux users, without joining a wait-list.
 
-All public workflows (i.e. workflows within this repo) are also available at [commands.dev](https://www.commands.dev/).
+We are calling this new phase of the product our “public beta” – it’s a “beta” because we know there are still some issues to smooth out, but we are confident that even today the experience is meaningfully better than in other terminals.
 
-## Contributing
-Contributions are always welcome! If you have a workflow that would be useful to many Warp users, feel free to send a PR to add a Workflow spec.
+We have plans to support [Windows](https://www.warp.dev/windows-terminal) and the Web (WASM)!
 
-All workflows are defined as YAML files within the [`specs/`](specs/) directory.
+## Installation
 
-### File Format
-A comprehensive description of the file format is available in [FORMAT.md](FORMAT.md).
-Additionally, see the workflow below as an example to quickly get started:
+You can [download Warp](https://app.warp.dev/get_warp) and [read our docs](https://docs.warp.dev/getting-started/getting-started-with-warp) for platform-specific instructions.
 
-```yaml
----
-# The name of the workflow.
-name: Uninstall a Homebrew package and all of its dependencies
-# The corresponding command for the workflow. Any arguments should be surrounded with two curly braces. E.g `command {{arg}}`.
-command: |-
-    brew tap beeftornado/rmtree
-    brew rmtree {{package_name}}
-# Any tags that the workflow should be categorized with.
-tags:
-  - homebrew
-# A description of the workflow.
-description: Uses the external command rmtree to remove a Homebrew package and all of its dependencies
-# List of arguments within the command.
-arguments:
-    # Name of the argument within the command. This must exactly match the name of the argument
-    # within the command (without the curly braces).
-  - name: package_name
-    # The description of the argument.
-    description: The name of the package that should be removed
-    # The default value for the argument.
-    default_value: ~
-# The source URL for where the workflow was generated from, if any.
-source_url: "https://stackoverflow.com/questions/7323261/uninstall-remove-a-homebrew-package-including-all-its-dependencies"
-# The author of the workflow.
-author: Ory Band
-# The URL of original author of the Workflow. For example, if this workflow was generated from StackOverflow, the `author_url` would be the StackOverflow author's profile page.
-author_url: "https://stackoverflow.com/users/207894"
-# The valid shells where this workflow should be active. If valid for all shells, this can be left empty.
-# See FORMAT.md for the full list of accepted values.
-shells: []
-```
+## Changelog and Releases
 
-### Testing
-To test a workflow within Warp before submitting, you can use it as a local workflow within warp.
+We try to release an update weekly, typically on Thursdays. Read our [changelog (release notes).](https://docs.warp.dev/help/changelog)
 
-To do this:
-1) Copy the workflow to your local `~/.warp/workflows` directory:
-    ```bash
-    mkdir -p ~/.warp/workflows && cp {{workflow}}.yaml ~/.warp/workflows/
-    ```
-2) Open Warp and open workflows by pressing `ctrl-shift-r` or using the command palette.
-3) Click on "My Workflows" on the left to filter for local workflows.
-![README md — workflows 2022-04-19 at 11 52 53 AM](https://user-images.githubusercontent.com/4110292/164045025-8eb3dd66-260a-4b12-8a4b-beae563db8ee.jpg)
-4) Click on the workflow you've added and ensure all the information is correct.
+## Issues, Bugs, and Feature Requests
 
-To quickly test if a workflow file format is valid, you can also build workflows locally to validate the schema is correct:
-```
-# Download the rust toolchain, if not already installed.
-brew install rustup
-rustup-init
+Please [search](https://github.com/warpdotdev/warp/issues?q=is%3Aissue+is%3Aopen+a+sort%3Areactions-%2B1-desc) through our existing issues for your bug (including workarounds) or feature request.
 
-# Ensure the workflows can successfully be converted into Rust.
-cargo build
-```
+If you can't find a solution above, please file issue requests [in this repo!](https://github.com/warpdotdev/warp/issues/new/choose)
+We kindly ask that you please use our issue templates to make the issues easier to track for our team.
 
+## Open Source & Contributing
 
-### What Makes a Useful workflow?
-A good workflow is one that includes a command with many flags or arguments or one that is hard to remember.
+We are planning to first open-source our Rust UI framework, and then parts and potentially all of our client codebase. The server portion of Warp will remain closed-source for now.
 
-Additionally, a workflow _must_ include:
+You can see how we’re thinking about open source here: [https://github.com/warpdotdev/Warp/discussions/400](https://github.com/warpdotdev/Warp/discussions/400)
 
-* A descriptive title that includes the name of the command--this is useful for improving the experience of searching for workflows in Warp or [commands.dev](https://www.commands.dev/).
-* A tag that accurately categorizes the workflows. Avoid many repetitive tags to improve searchability of workflows within Warp.
-* A description for the workflow and each of its arguments, if applicable.
-* A default value for each argument, if applicable.
+As a side note, we are open sourcing our extension points as we go. The community has already been [contributing new themes](https://github.com/warpdotdev/themes). And we’ve just opened our [Workflows repository](https://github.com/warpdotdev/workflows) for the community to contribute common useful commands.
+
+Interested in joining the team? See our [open roles](https://www.warp.dev/careers) and feel free to email us: hello at warpdotdev
+
+## Support and Questions
+
+1. See our [docs](https://docs.warp.dev/) for a walk-through of the features within our app.
+2. Join our [Discord](https://discord.gg/warpdotdev) to chat with other users and get immediate help with members of the Warp team.
+
+For anything else, please don't hesitate to reach out via email at hello at warpdotdev
+
+## Community Guidelines
+
+At a high level, we ask everyone be respectful and empathetic. We follow the [GitHub Community Guidelines](https://docs.github.com/en/github/site-policy/github-community-guidelines):
+
+* Be welcoming and open-minded
+* Respect each other
+* Communicate with empathy
+* Be clear and stay on topic
+
+## Open Source Dependencies
+
+We'd like to call out a few of the [open source dependencies](https://docs.warp.dev/help/licenses) that have helped Warp to get off the ground:
+
+* [Tokio](https://github.com/tokio-rs/tokio)
+* [NuShell](https://github.com/nushell/nushell)
+* [Fig Completion Specs](https://github.com/withfig/autocomplete)
+* [Warp Server Framework](https://github.com/seanmonstar/warp)
+* [Alacritty](https://github.com/alacritty/alacritty)
+* [Hyper HTTP library](https://github.com/hyperium/hyper)
+* [FontKit](https://github.com/servo/font-kit)
+* [Core-foundation](https://github.com/servo/core-foundation-rs)
+* [Smol](https://github.com/smol-rs/smol)
