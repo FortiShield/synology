@@ -1,4 +1,0 @@
-[submodule "trunk/config"]
-	path = .github/.trunk/config
-	url = https://github.com/FortiShield/synology
-	branch = trunk/config

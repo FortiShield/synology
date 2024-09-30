@@ -1,64 +1,94 @@
-# Warp Themes
+# Workflows
 
-This is an open-source repository with themes for [Warp](https://www.warp.dev/). We welcome and appreciate any contributions! Join our [Discord](https://discord.gg/warpdotdev), we have a channel dedicated to discussing custom themes.
+The repo for all _public_ Workflows that appear within Warp and within [commands.dev](https://www.commands.dev/).
 
-We have [directions on how to use this repository in our documentation.](https://docs.warp.dev/features/themes/custom-themes)
+**To learn how to create local or repository workflows, see [our docs](https://docs.warp.dev/features/workflows#creating-custom-workflows).**
 
-## Custom Background Images
+<img width="736" alt="image" src="https://user-images.githubusercontent.com/4110292/164031239-49f0ec9e-f124-44c4-89e6-6facc9bf9a8f.png">
 
-Warp supports setting background images, set the path to your background image in your themes `.yaml` file:
 
-- A relative path to `~/.warp/themes/background.jpg`
-- The absolute path to the background image `/Users/my_user/Documents/background.jpg`
+## What are Workflows?
 
-If your background image was under `~/.warp/themes/level_one/level_two/background_image.jpg` then the file path in the yaml should be:
+Workflows are an easier way to execute and share commands within Warp. They are searchable by name, description, or command and are easily parameterized. See our documentation for more details: [https://docs.warp.dev/features/workflows](https://docs.warp.dev/features/workflows)
 
-```yaml
-background_image:
-  # background image credit: https://unsplash.com/photos/0eKCOZ11gfk
-  path: "level_one/level_two/background_image.jpg"
-```
+## How Do I Access Workflows within Warp?
+
+Workflows can be accessed directly within Warp, either through the Command Palette or by pressing `ctrl-shift-r`.
+
+All public workflows (i.e. workflows within this repo) are also available at [commands.dev](https://www.commands.dev/).
 
 ## Contributing
+Contributions are always welcome! If you have a workflow that would be useful to many Warp users, feel free to send a PR to add a Workflow spec.
 
-TLDR; After adding your theme run the python script for generating theme previews `./scripts/gen_theme_previews.py` like so:
+All workflows are defined as YAML files within the [`specs/`](specs/) directory.
 
-`python3 ./scripts/gen_theme_previews.py standard`
+### File Format
+A comprehensive description of the file format is available in [FORMAT.md](FORMAT.md).
+Additionally, see the workflow below as an example to quickly get started:
 
-for a newly added theme that's in the standard folder/directory. If you get the error that yaml is missing make sure you `pip install PyYAML`
+```yaml
+---
+# The name of the workflow.
+name: Uninstall a Homebrew package and all of its dependencies
+# The corresponding command for the workflow. Any arguments should be surrounded with two curly braces. E.g `command {{arg}}`.
+command: |-
+    brew tap beeftornado/rmtree
+    brew rmtree {{package_name}}
+# Any tags that the workflow should be categorized with.
+tags:
+  - homebrew
+# A description of the workflow.
+description: Uses the external command rmtree to remove a Homebrew package and all of its dependencies
+# List of arguments within the command.
+arguments:
+    # Name of the argument within the command. This must exactly match the name of the argument
+    # within the command (without the curly braces).
+  - name: package_name
+    # The description of the argument.
+    description: The name of the package that should be removed
+    # The default value for the argument.
+    default_value: ~
+# The source URL for where the workflow was generated from, if any.
+source_url: "https://stackoverflow.com/questions/7323261/uninstall-remove-a-homebrew-package-including-all-its-dependencies"
+# The author of the workflow.
+author: Ory Band
+# The URL of original author of the Workflow. For example, if this workflow was generated from StackOverflow, the `author_url` would be the StackOverflow author's profile page.
+author_url: "https://stackoverflow.com/users/207894"
+# The valid shells where this workflow should be active. If valid for all shells, this can be left empty.
+# See FORMAT.md for the full list of accepted values.
+shells: []
+```
 
-There are more [directions on how to use this repository in our documentation.](https://docs.warp.dev/features/themes).
+### Testing
+To test a workflow within Warp before submitting, you can use it as a local workflow within warp.
 
-## Open source dependencies
+To do this:
+1) Copy the workflow to your local `~/.warp/workflows` directory:
+    ```bash
+    mkdir -p ~/.warp/workflows && cp {{workflow}}.yaml ~/.warp/workflows/
+    ```
+2) Open Warp and open workflows by pressing `ctrl-shift-r` or using the command palette.
+3) Click on "My Workflows" on the left to filter for local workflows.
+![README md — workflows 2022-04-19 at 11 52 53 AM](https://user-images.githubusercontent.com/4110292/164045025-8eb3dd66-260a-4b12-8a4b-beae563db8ee.jpg)
+4) Click on the workflow you've added and ensure all the information is correct.
 
-We'd like to call out a few of the open source themes and repositories that helped bootstrap the set of themes for Warp:
+To quickly test if a workflow file format is valid, you can also build workflows locally to validate the schema is correct:
+```
+# Download the rust toolchain, if not already installed.
+brew install rustup
+rustup-init
 
-- [iTerm colors pencil](https://github.com/mattly/iterm-colors-pencil)
-- [Alacritty-theme](https://github.com/alacritty/alacritty-theme)
-- [base16-Alacritty](https://github.com/aarowill/base16-alacritty)
-- [base16](https://github.com/chriskempson/base16)
-- [Solarized](https://ethanschoonover.com/solarized/)
-- [Dracula](https://draculatheme.com/)
-- [Gruvbox](https://github.com/morhetz/gruvbox)
+# Ensure the workflows can successfully be converted into Rust.
+cargo build
+```
 
-## What are base16 themes?
 
-> An architecture for building themes based on carefully chosen syntax highlighting using a base of sixteen colors. Base16 provides a set of guidelines detailing how to style syntax and how to code a builder for compiling Base16 schemes and templates.
+### What Makes a Useful workflow?
+A good workflow is one that includes a command with many flags or arguments or one that is hard to remember.
 
-More on the details and structure here: [https://github.com/chriskempson/base16.](https://github.com/chriskempson/base16)
+Additionally, a workflow _must_ include:
 
-Base16 themes were sourced and auto-generated based on the Alacritty themes collected by @aarowill. Repo: [https://github.com/aarowill/base16-alacritty](https://github.com/aarowill/base16-alacritty)
-
-## What are standard themes?
-
-In this directory, you'll find themes popular among other tools, including Solarized, Dracula, and others.
-
-Themes in this directory were sourced and auto-generated based on the Alacritty themes collected by @eendroroy. Repo: [https://github.com/eendroroy/alacritty-theme](https://github.com/eendroroy/alacritty-theme)
-
-## What are holiday themes?
-
-We made holiday themes to celebrate various holidays during the calendar year.
-
-## What are warp_bundled themes?
-
-These are the themes that ship directly with Warp.
+* A descriptive title that includes the name of the command--this is useful for improving the experience of searching for workflows in Warp or [commands.dev](https://www.commands.dev/).
+* A tag that accurately categorizes the workflows. Avoid many repetitive tags to improve searchability of workflows within Warp.
+* A description for the workflow and each of its arguments, if applicable.
+* A default value for each argument, if applicable.
